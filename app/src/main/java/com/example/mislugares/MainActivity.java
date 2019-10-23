@@ -17,6 +17,8 @@ import android.widget.Button;
 public class MainActivity extends AppCompatActivity {
 
     private Button bAcercaDe;
+    private RepositorioLugares lugares;
+    private CasosUsoLugar usoLugar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +36,9 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+        lugares = ((Aplicacion) getApplication()).lugares;
+        usoLugar = new CasosUsoLugar(this, lugares);
 
     }
 
@@ -55,8 +60,19 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.action_settings) {
             return true;
         }
+        if (id == R.id.acercaDe) {
+            lanzarAcercaDe(null);
+            return true;
+        }
+        if (id == R.id.menu_buscar) {
+            lanzarVistaLugar(null);
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
+
+    //-------------------------------------------------
+    //-------------------------------------------------
 
     public void lanzarAcercaDe(View view){
         Intent i = new Intent(this, AcercaDeActivity.class);
@@ -65,6 +81,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void salir(View view){
         finish();
+    }
+
+    public void lanzarVistaLugar(View view){
+        usoLugar.mostrar(0);
     }
 
 }
