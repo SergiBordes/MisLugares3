@@ -25,6 +25,8 @@
             android:theme="@style/Theme.AppCompat.Light.Dialog"/>
         <activity android:name=".VistaLugarActivity"
             android:label="Vista Lugar"/>
+        <activity android:name=".EdicionLugarActivity"
+            android:label="Edicion Lugar"/>
     </application>
 
 

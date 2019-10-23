@@ -1,20 +1,28 @@
 package com.example.mislugares;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.text.DateFormat;
 import java.util.Date;
 
 public class VistaLugarActivity extends AppCompatActivity {
+
     private RepositorioLugares lugares;
     private CasosUsoLugar usoLugar;
     private int pos;
     private Lugar lugar;
+
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.vista_lugar);
@@ -25,6 +33,7 @@ public class VistaLugarActivity extends AppCompatActivity {
         lugar = lugares.elemento(pos);
         actualizaVistas();
     }
+
     public void actualizaVistas() {
         TextView nombre = findViewById(R.id.nombre);
         nombre.setText(lugar.getNombre());
@@ -56,4 +65,40 @@ public class VistaLugarActivity extends AppCompatActivity {
                     }
                 });
     }
+
+    @Override public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.vista_lugar, menu);
+        return true;
+    }
+    @Override public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.accion_compartir:
+                return true;
+            case R.id.accion_llegar:
+                return true;
+            case R.id.accion_editar:
+                usoLugar.editar(pos);
+                return true;
+            case R.id.accion_borrar:
+                confirmarBorrar(null);
+                //usoLugar.borrar(pos);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    public void confirmarBorrar(View view){
+        final EditText entrada = new EditText(this);
+        entrada.setText("0");
+        new AlertDialog.Builder(this)
+                .setTitle("¿Sefuro que quieres eliminar este lugar?")
+                .setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        usoLugar.borrar(pos);
+                    }})
+                .setNegativeButton("Cancelar", null)
+                .show();
+    }
+
 }
