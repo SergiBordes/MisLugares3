@@ -26,10 +26,15 @@ public class CasosUsoLugar {
         actividad.finish();
     }
 
-    public void editar(int pos) {
+    public void editar(int pos, int codidoSolicitud) {
         Intent i = new Intent(actividad, EdicionLugarActivity.class);
         i.putExtra("pos", pos);
-        actividad.startActivity(i);
+        actividad.startActivityForResult(i, codidoSolicitud);
     }
+
+    public void guardar(int id, Lugar nuevoLugar) {
+        lugares.actualiza(id, nuevoLugar);
+    }
+
 
 }

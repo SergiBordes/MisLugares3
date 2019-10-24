@@ -20,4 +20,12 @@ public enum TipoLugar {
     }
     public String getTexto() { return texto; }
     public int getRecurso() { return recurso; }
+    public static String[] getNombres() {
+        String[] resultado = new String[TipoLugar.values().length];
+        for (TipoLugar tipo : TipoLugar.values()) {
+            resultado[tipo.ordinal()] = tipo.texto;
+        }
+        return resultado;
+    }
+
 }

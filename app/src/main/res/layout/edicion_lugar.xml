@@ -15,7 +15,7 @@
             android:text="Nombre" />
 
         <EditText
-            android:id="@+id/editText"
+            android:id="@+id/nombre"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -23,7 +23,7 @@
             android:text="Indica el nomre del lugar" />
 
         <Spinner
-            android:id="@+id/spinner"
+            android:id="@+id/tipo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -34,7 +34,7 @@
             android:text="Dirección" />
 
         <EditText
-            android:id="@+id/editText2"
+            android:id="@+id/direccion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -48,7 +48,7 @@
             android:text="Teléfono" />
 
         <EditText
-            android:id="@+id/editText6"
+            android:id="@+id/telefono"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -62,7 +62,7 @@
             android:text="Url:" />
 
         <EditText
-            android:id="@+id/editText4"
+            android:id="@+id/url"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -76,7 +76,7 @@
             android:text="Comentario:" />
 
         <EditText
-            android:id="@+id/editText5"
+            android:id="@+id/comentario"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
