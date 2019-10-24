@@ -10,6 +10,8 @@ import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.View;
 import android.view.Menu;
@@ -22,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
     private Button bAcercaDe;
     private RepositorioLugares lugares;
     private CasosUsoLugar usoLugar;
+    private RecyclerView recyclerView;
+    public AdaptadorLugares adaptador;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +47,20 @@ public class MainActivity extends AppCompatActivity {
         lugares = ((Aplicacion) getApplication()).lugares;
         usoLugar = new CasosUsoLugar(this, lugares);
 
+        adaptador = ((Aplicacion) getApplication()).adaptador;
+        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(adaptador);
+
+        adaptador.setOnItemClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int pos = recyclerView.getChildAdapterPosition(v);
+                usoLugar.mostrar(pos);
+            }
+        });
+
     }
 
     @Override
@@ -61,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            lanzarPreferencias(null);
             return true;
         }
         if (id == R.id.acercaDe) {
@@ -79,6 +98,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void lanzarAcercaDe(View view){
         Intent i = new Intent(this, AcercaDeActivity.class);
+        startActivity(i);
+    }
+
+    public void lanzarPreferencias(View view){
+        Intent i = new Intent(this, PreferenciasActivity.class);
         startActivity(i);
     }
 

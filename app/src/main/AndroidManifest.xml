@@ -27,6 +27,8 @@
             android:label="Vista Lugar"/>
         <activity android:name=".EdicionLugarActivity"
             android:label="Edicion Lugar"/>
+        <activity android:name=".PreferenciasActivity"
+            android:label="Preferencias"/>
     </application>
 
 
