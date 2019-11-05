@@ -3,6 +3,7 @@ package com.example.mislugares;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -144,5 +145,23 @@ public class VistaLugarActivity extends AppCompatActivity {
     }
 
 
+    public void mandarCorreo(View view) {
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_SUBJECT, "asunto");
+        intent.putExtra(Intent.EXTRA_TEXT, "texto del correo");
+        intent.putExtra(Intent.EXTRA_EMAIL, new String[] {"jtomas@upv.es"});
+        startActivity(intent);
+    }
+
+    public void verMapa(View view) {
+        usoLugar.verMapa(lugar);
+    }
+    public void llamarTelefono(View view) {
+        usoLugar.llamarTelefono(lugar);
+    }
+    public void verPgWeb(View view) {
+        usoLugar.verPgWeb(lugar);
+    }
 
 }
