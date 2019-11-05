@@ -1,5 +1,6 @@
 package com.example.mislugares;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,6 +26,9 @@ public class VistaLugarActivity extends AppCompatActivity {
     private int pos;
     private Lugar lugar;
     final static int RESULTADO_EDITAR = 1;
+    final static int RESULTADO_GALERIA = 2;
+    final static int RESULTADO_FOTO = 3;
+    private ImageView foto;
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +38,7 @@ public class VistaLugarActivity extends AppCompatActivity {
         lugares = ((Aplicacion) getApplication()).lugares;
         usoLugar = new CasosUsoLugar(this, lugares);
         lugar = lugares.elemento(pos);
+        foto = findViewById(R.id.foto);
         actualizaVistas();
     }
 
@@ -42,6 +48,13 @@ public class VistaLugarActivity extends AppCompatActivity {
         if (requestCode == RESULTADO_EDITAR) {
             actualizaVistas();
             findViewById(R.id.scrollView1).invalidate(); //¿Hace falta?
+        }
+        else if (requestCode == RESULTADO_GALERIA) {
+            if (resultCode == Activity.RESULT_OK) {
+                usoLugar.ponerFoto(pos, data.getDataString(), foto);
+            } else {
+                Toast.makeText(this, "Foto no cargada", Toast.LENGTH_LONG).show();
+            }
         }
     }
 
@@ -84,8 +97,10 @@ public class VistaLugarActivity extends AppCompatActivity {
     @Override public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.accion_compartir:
+                usoLugar.compartir(lugar);
                 return true;
             case R.id.accion_llegar:
+                usoLugar.verMapa(lugar);
                 return true;
             case R.id.accion_editar:
                 usoLugar.editar(pos, RESULTADO_EDITAR);
@@ -110,6 +125,22 @@ public class VistaLugarActivity extends AppCompatActivity {
                     }})
                 .setNegativeButton("Cancelar", null)
                 .show();
+    }
+
+    public void verMapa(View view) {
+        usoLugar.verMapa(lugar);
+    }
+
+    public void llamarTelefono(View view) {
+        usoLugar.llamarTelefono(lugar);
+    }
+
+    public void verPgWeb(View view) {
+        usoLugar.verPgWeb(lugar);
+    }
+
+    public void ponerDeGaleria(View view) {
+        usoLugar.ponerDeGaleria(RESULTADO_GALERIA);
     }
 
 
