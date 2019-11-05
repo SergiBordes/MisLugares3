@@ -2,6 +2,7 @@ package com.example.mislugares;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 
 public class CasosUsoLugar {
 
@@ -36,5 +37,28 @@ public class CasosUsoLugar {
         lugares.actualiza(id, nuevoLugar);
     }
 
+    public void compartir(Lugar lugar) {
+        Intent i = new Intent(Intent.ACTION_SEND);
+        i.setType("text/plain");
+        i.putExtra(Intent.EXTRA_TEXT,
+                lugar.getNombre() + " - " + lugar.getUrl());
+        actividad.startActivity(i);
+    }
+    public void llamarTelefono(Lugar lugar) {
+        actividad.startActivity(new Intent(Intent.ACTION_DIAL,
+                Uri.parse("tel:" + lugar.getTelefono())));
+    }
+    public void verPgWeb(Lugar lugar) {
+        actividad.startActivity(new Intent(Intent.ACTION_VIEW,
+                Uri.parse(lugar.getUrl())));
+    }
+    public final void verMapa(Lugar lugar) {
+        double lat = lugar.getPosicion().getLatitud();
+        double lon = lugar.getPosicion().getLongitud();
+        Uri uri = lugar.getPosicion() != GeoPunto.SIN_POSICION
+                ? Uri.parse("geo:" + lat + ',' + lon)
+                : Uri.parse("geo:0,0?q=" + lugar.getDireccion());
+        actividad.startActivity(new Intent("android.intent.action.VIEW", uri));
+    }
 
 }

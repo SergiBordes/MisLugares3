@@ -36,7 +36,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:orientation="horizontal"
+            android:onClick="verMapa">
             <ImageView
                 android:id="@+id/logo_direccion"
                 android:layout_width="40dp"
@@ -54,7 +55,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:orientation="horizontal"
+            android:onClick="llamarTelefono">
             <ImageView
                 android:id="@+id/logo_telefono"
                 android:layout_width="40dp"
@@ -72,7 +74,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:orientation="horizontal"
+            android:onClick="verPgWeb">
             <ImageView
                 android:id="@+id/logo_url"
                 android:layout_width="40dp"
@@ -141,6 +144,21 @@
                 android:layout_gravity="bottom"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="tipo del lugar" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/correo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:paddingLeft="90dp"
+                android:text="Enviar Correo Electrónico"
+                android:onClick="mandarCorreo"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
         </LinearLayout>
 
         <RatingBar
