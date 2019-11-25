@@ -19,6 +19,7 @@ public class AdaptadorLugares extends
     }
     //Creamos nuestro ViewHolder, con los tipos de elementos a modificar
     public static class ViewHolder extends RecyclerView.ViewHolder {
+        public TextView distancia;
         public TextView nombre, direccion;
         public ImageView foto;
         public RatingBar valoracion;
@@ -28,6 +29,7 @@ public class AdaptadorLugares extends
             direccion = itemView.findViewById(R.id.direccion);
             foto = itemView.findViewById(R.id.foto);
             valoracion= itemView.findViewById(R.id.valoracion);
+            distancia = itemView.findViewById(R.id.distancia);
         }
         // Personalizamos un ViewHolder a partir de un lugar
         public void personaliza(Lugar lugar) {

@@ -1,8 +1,10 @@
 package com.example.mislugares;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
@@ -16,6 +18,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -30,6 +33,9 @@ public class VistaLugarActivity extends AppCompatActivity {
     final static int RESULTADO_GALERIA = 2;
     final static int RESULTADO_FOTO = 3;
     private ImageView foto;
+    private Uri uriUltimaFoto;
+    private static final int SOLICITUD_PERMISO_READ_EXTERNAL_STORAGE = 0;
+
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,12 +55,18 @@ public class VistaLugarActivity extends AppCompatActivity {
         if (requestCode == RESULTADO_EDITAR) {
             actualizaVistas();
             findViewById(R.id.scrollView1).invalidate(); //¿Hace falta?
-        }
-        else if (requestCode == RESULTADO_GALERIA) {
+        } else if (requestCode == RESULTADO_GALERIA) {
             if (resultCode == Activity.RESULT_OK) {
                 usoLugar.ponerFoto(pos, data.getDataString(), foto);
             } else {
                 Toast.makeText(this, "Foto no cargada", Toast.LENGTH_LONG).show();
+            }
+        } else if (requestCode == RESULTADO_FOTO) {
+            if (resultCode == Activity.RESULT_OK && uriUltimaFoto != null) {
+                lugar.setFoto(uriUltimaFoto.toString());
+                usoLugar.ponerFoto(pos, lugar.getFoto(), foto);
+            } else {
+                Toast.makeText(this, "Error en captura", Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -89,6 +101,7 @@ public class VistaLugarActivity extends AppCompatActivity {
                         lugar.setValoracion(valor);
                     }
                 });
+        usoLugar.visualizarFoto(lugar, foto);
     }
 
     @Override public boolean onCreateOptionsMenu(Menu menu) {
@@ -141,27 +154,42 @@ public class VistaLugarActivity extends AppCompatActivity {
     }
 
     public void ponerDeGaleria(View view) {
-        usoLugar.ponerDeGaleria(RESULTADO_GALERIA);
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.READ_EXTERNAL_STORAGE)
+                == PackageManager.PERMISSION_GRANTED) {
+            usoLugar.ponerDeGaleria(RESULTADO_GALERIA);
+        } else {
+            solicitarPermiso(Manifest.permission.READ_EXTERNAL_STORAGE, "Sin el permiso" +
+                            " no puedo acceder a tu almacenamiento interno.",
+                    SOLICITUD_PERMISO_READ_EXTERNAL_STORAGE, this);
+        }
     }
 
-
-    public void mandarCorreo(View view) {
-        Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType("text/plain");
-        intent.putExtra(Intent.EXTRA_SUBJECT, "asunto");
-        intent.putExtra(Intent.EXTRA_TEXT, "texto del correo");
-        intent.putExtra(Intent.EXTRA_EMAIL, new String[] {"jtomas@upv.es"});
-        startActivity(intent);
+    public void tomarFoto(View view) {
+        uriUltimaFoto = usoLugar.tomarFoto(RESULTADO_FOTO);
     }
 
-    public void verMapa(View view) {
-        usoLugar.verMapa(lugar);
+    public void eliminarFoto(View view) {
+        usoLugar.ponerFoto(pos, "", foto);
     }
-    public void llamarTelefono(View view) {
-        usoLugar.llamarTelefono(lugar);
-    }
-    public void verPgWeb(View view) {
-        usoLugar.verPgWeb(lugar);
+
+    public static void solicitarPermiso(final String permiso, String
+            justificacion, final int requestCode, final Activity actividad) {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(actividad,
+                permiso)){
+            new AlertDialog.Builder(actividad)
+                    .setTitle("Solicitud de permiso")
+                    .setMessage(justificacion)
+                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            ActivityCompat.requestPermissions(actividad,
+                                    new String[]{permiso}, requestCode);
+                        }})
+                    .show();
+        } else {
+            ActivityCompat.requestPermissions(actividad,
+                    new String[]{permiso}, requestCode);
+        }
     }
 
 }
